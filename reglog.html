@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceylon Décor - Register/Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #f7931e;
+            --accent: #004e89;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #f8f9fa;
+            --text: #333333;
+            --border: #e0e0e0;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Decorative Side Panel */
+        .side-panel {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-size: cover;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .side-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.9), rgba(247, 147, 30, 0.9));
+        }
+
+        .side-content {
+            position: relative;
+            z-index: 2;
+            padding: 3rem;
+            color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .side-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .side-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .features-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .features-list i {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 100%;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .auth-forms {
+            padding: 2rem;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .remember-me input {
+            width: auto;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+        }
+
+        .social-login {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-login p {
+            position: relative;
+            margin-bottom: 1.5rem;
+            color: #777;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn.facebook {
+            color: #3b5998;
+        }
+
+        .social-btn.google {
+            color: #db4437;
+        }
+
+        .auth-footer {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 992px) {
+            .side-panel {
+                display: block;
+            }
+            
+            .main-content {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-container {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            body {
+                background: white;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .auth-forms {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Side Panel -->
+    <div class="side-panel">
+        <div class="side-content">
+            <div class="logo">
+                <span>🏺</span>
+                <span>Ceylon Décor</span>
+            </div>
+            <h2 class="side-title">Transform Your Living Space</h2>
+            <p class="side-description">Join our community of home decor enthusiasts and discover unique pieces to elevate your home.</p>
+            
+            <ul class="features-list">
+                <li><i class="fas fa-check-circle"></i> Exclusive member discounts</li>
+                <li><i class="fas fa-check-circle"></i> Early access to new collections</li>
+                <li><i class="fas fa-check-circle"></i> Personalized decor recommendations</li>
+                <li><i class="fas fa-check-circle"></i> Save your favorite items</li>
+                <li><i class="fas fa-check-circle"></i> Fast checkout process</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="auth-container">
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="register">Register</div>
+            </div>
+
+            <!-- Auth Forms -->
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <form class="auth-form active" id="login-form">
+                    <h3 class="form-title">Welcome Back</h3>
+                    
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email Address</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                        <i class="fas fa-eye password-toggle" id="toggle-login-password"></i>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Login</button>
+                    
+                    <div class="social-login">
+                        <p>Or login with</p>
+                        <div class="social-buttons">
+                            <div class="social-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-btn google">
+                                <i class="fab fa-google"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" class="switch-tab" data-tab="register">Sign up</a>
+                    </div>
+                </form>
+
+                <!-- Registration Form -->
+                <form class="auth-form" id="register-form">
+                    <h3 class="form-title">Create Account</h3>
+                    
+                    <div class="form-group">
+                        <label for="register-name" class="form-label">Full Name</label>
+                        <input type="text" id="register-name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email" class="form-label">Email Address</label>
+                        <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                        <i class="fas fa-eye password-toggle" id="toggle-register-password"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="remember-me">
+                            <input type="checkbox" id="terms-agree" required>
+                            <label for="terms-agree">I agree to the <a href="#" style="color: var(--primary);">Terms of Service</a> and <a href="#" style="color: var(--primary);">Privacy Policy</a></label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Create Account</button>
+                    
+                    <div class="social-login">
+                        <p>Or sign up with</p>
+                        <div class="social-buttons">
+                            <div class="social-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-btn google">
+                                <i class="fab fa-google"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" class="switch-tab" data-tab="login">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        const tabs = document.querySelectorAll('.auth-tab');
+        const forms = document.querySelectorAll('.auth-form');
+        const switchTabLinks = document.querySelectorAll('.switch-tab');
+        
+        function switchTab(tabId) {
+            // Update tabs
+            tabs.forEach(tab => {
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update forms
+            forms.forEach(form => {
+                if (form.id === `${tabId}-form`) {
+                    form.classList.add('active');
+                } else {
+                    form.classList.remove('active');
+                }
+            });
+        }
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+        
+        switchTabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab(link.dataset.tab);
+            });
+        });
+        
+        // Password Toggle
+        function setupPasswordToggle(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            
+            toggleIcon.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.classList.remove('fa-eye');
+                    toggleIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.classList.remove('fa-eye-slash');
+                    toggleIcon.classList.add('fa-eye');
+                }
+            });
+        }
+        
+        setupPasswordToggle('login-password', 'toggle-login-password');
+        setupPasswordToggle('register-password', 'toggle-register-password');
+        
+        // Form Submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your login logic here
+            alert('Login functionality would be implemented here');
+        });
+        
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your registration logic here
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            alert('Registration successful! Account creation would be implemented here');
+            switchTab('login');
+        });
+        
+        // Social Login Buttons
+        document.querySelectorAll('.social-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const platform = this.querySelector('i').classList.contains('fa-facebook-f') ? 'Facebook' : 'Google';
+                alert(`${platform} login would be implemented here`);
+            });
+        });
+    </script>
+</body>
+</html>

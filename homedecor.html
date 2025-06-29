@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Decor Collection - Ceylon Décor</title>
+    <meta name="description" content="Transform your living spaces with our premium home decor collection. Wall art, sculptures, lighting, and more.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #f7931e;
+            --accent: #004e89;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #f8f9fa;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--gray);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 0.3rem;
+            width: 180px;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 150px 5% 100px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .breadcrumb {
+            margin-top: 2rem;
+            opacity: 0.8;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Filters & Sorting */
+        .filters-section {
+            background: var(--gray);
+            padding: 2rem 5%;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .products-count {
+            color: #666;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .products-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            background: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .badge.sale {
+            background: var(--primary);
+        }
+
+        .badge.new {
+            background: #28a745;
+        }
+
+        .badge.bestseller {
+            background: var(--secondary);
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--secondary);
+        }
+
+        .rating-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-current {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .price-old {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .discount-percent {
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: var(--secondary);
+        }
+
+        .quick-view {
+            padding: 0.8rem;
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .quick-view:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* List view styles */
+        .products-grid.list-view .product-card {
+            display: flex;
+            height: 200px;
+        }
+
+        .products-grid.list-view .product-image {
+            width: 250px;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .products-grid.list-view .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover,
+        .pagination button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 0;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--dark);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-about {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                justify-content: center;
+            }
+            
+            .products-grid.list-view .product-card {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .products-grid.list-view .product-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                border-radius: 50px;
+                width: 100%;
+            }
+            
+            .newsletter-form button {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <span>🏺</span>
+                <span>Ceylon Décor</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="home-decor.html" style="color: var(--primary);">Home Decor</a></li>
+                <li><a href="festive-seasonal.html">Festive & Seasonal</a></li>
+                <li><a href="outdoor-garden.html">Outdoor & Garden</a></li>
+                <li><a href="traditional-craft.html">Traditional & Craft</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search products..." id="searchInput">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1>🏠 Home Decor Collection</h1>
+            <p>Transform your living spaces with our curated selection of elegant home decoration items</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Home Decor</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <div class="filter-group">
+                <label>Category:</label>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="wall-art">Wall Art</option>
+                    <option value="sculptures">Sculptures</option>
+                    <option value="lighting">Lighting</option>
+                    <option value="vases">Vases & Planters</option>
+                    <option value="mirrors">Mirrors</option>
+                    <option value="cushions">Cushions & Textiles</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Price Range:</label>
+                <select class="filter-select" id="priceFilter">
+                    <option value="">All Prices</option>
+                    <option value="0-2000">Under Rs. 2,000</option>
+                    <option value="2000-5000">Rs. 2,000 - 5,000</option>
+                    <option value="5000-10000">Rs. 5,000 - 10,000</option>
+                    <option value="10000+">Above Rs. 10,000</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Sort by:</label>
+                <select class="filter-select" id="sortFilter">
+                    <option value="featured">Featured</option>
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+            
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="products-header">
+            <div class="products-count">Showing <span id="productCount">24</span> products</div>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Product Cards -->
+            <div class="product-card fade-in-up" data-category="wall-art" data-price="4500">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Buddha+Wall+Art" alt="Buddha Wall Art">
+                    <div class="product-badges">
+                        <span class="badge bestseller">Bestseller</span>
+                    </div>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Wall Art</div>
+                    <h3 class="product-title">Buddha Meditation Wall Art</h3>
+                    <div class="product-description">Elegant canvas painting featuring serene Buddha in meditation pose</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-count">(47 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 4,500</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="sculptures" data-price="6800">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Wooden+Elephant" alt="Wooden Elephant Sculpture">
+                    <div class="product-badges">
+                        <span class="badge new">New</span>
+                    </div>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Sculptures</div>
+                    <h3 class="product-title">Handcrafted Wooden Elephant</h3>
+                    <div class="product-description">Traditional Sri Lankan wooden elephant sculpture, hand-carved by local artisans</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-count">(32 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 6,800</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="lighting" data-price="3200">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Table+Lamp" alt="Bamboo Table Lamp">
+                    <div class="product-badges">
+                        <span class="badge sale">-15%</span>
+                    </div>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Lighting</div>
+                    <h3 class="product-title">Bamboo Table Lamp</h3>
+                    <div class="product-description">Eco-friendly bamboo table lamp with warm LED lighting</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-count">(28 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 3,200</span>
+                        <span class="price-old">Rs. 3,765</span>
+                        <span class="discount-percent">15% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="vases" data-price="2800">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Ceramic+Vase" alt="Ceramic Flower Vase">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Vases & Planters</div>
+                    <h3 class="product-title">Ceramic Flower Vase Set</h3>
+                    <div class="product-description">Set of 3 handmade ceramic vases in different sizes with traditional patterns</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-count">(19 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 2,800</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="mirrors" data-price="8500">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Wooden+Mirror" alt="Carved Wooden Mirror">
+                                <div class="product-badges">
+                        <span class="badge bestseller">Bestseller</span>
+                    </div>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Mirrors</div>
+                    <h3 class="product-title">Carved Wooden Mirror Frame</h3>
+                    <div class="product-description">Hand-carved wooden mirror with intricate traditional Sri Lankan patterns</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-count">(41 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 8,500</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="cushions" data-price="3500">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Cushion+Covers" alt="Traditional Cushion Covers">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Cushions & Textiles</div>
+                    <h3 class="product-title">Traditional Cushion Cover Set</h3>
+                    <div class="product-description">Set of 4 handwoven cushion covers with authentic Sri Lankan designs</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-count">(23 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 3,500</span>
+                        <span class="price-old">Rs. 4,200</span>
+                        <span class="discount-percent">17% OFF</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="wall-art" data-price="5200">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Peacock+Wall+Art" alt="Peacock Wall Art">
+                    <div class="product-badges">
+                        <span class="badge new">New</span>
+                    </div>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Wall Art</div>
+                    <h3 class="product-title">Peacock Feather Wall Hanging</h3>
+                    <div class="product-description">Beautiful peacock feather design wall art made with natural materials</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-count">(15 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 5,200</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in-up" data-category="lighting" data-price="12500">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/f5f5f5/333?text=Pendant+Light" alt="Brass Pendant Light">
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Lighting</div>
+                    <h3 class="product-title">Handcrafted Brass Pendant Light</h3>
+                    <div class="product-description">Elegant brass pendant light with intricate cut-out designs, perfect for living spaces</div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="rating-count">(12 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="price-current">Rs. 12,500</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">Add to Cart</button>
+                        <button class="quick-view">Quick View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+            <button disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Stay Inspired</h2>
+        <p>Subscribe to our newsletter for exclusive decor ideas, new arrivals, and special offers</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">Ceylon Décor</div>
+                <p class="footer-about">Bringing authentic Sri Lankan craftsmanship to your home since 2010. Our products are handcrafted by local artisans using traditional techniques.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="home-decor.html">Home Decor</a></li>
+                    <li><a href="festive-seasonal.html">Festive & Seasonal</a></li>
+                    <li><a href="outdoor-garden.html">Outdoor & Garden</a></li>
+                    <li><a href="traditional-craft.html">Traditional & Craft</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-heading">Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Order Tracking</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-heading">Contact Us</h3>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Decor Street, Colombo 05, Sri Lanka</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+94 11 234 5678</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@ceylondecor.lk</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Ceylon Décor. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // View Toggle Functionality
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const productsGrid = document.getElementById('productsGrid');
+        
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (btn.dataset.view === 'list') {
+                    productsGrid.classList.add('list-view');
+                } else {
+                    productsGrid.classList.remove('list-view');
+                }
+            });
+        });
+        
+        // Filter Functionality (basic implementation)
+        const filters = {
+            category: document.getElementById('categoryFilter'),
+            price: document.getElementById('priceFilter'),
+            sort: document.getElementById('sortFilter')
+        };
+        
+        Object.values(filters).forEach(filter => {
+            filter.addEventListener('change', () => {
+                // In a real implementation, this would filter/sort products
+                console.log('Filters changed:', {
+                    category: filters.category.value,
+                    price: filters.price.value,
+                    sort: filters.sort.value
+                });
+            });
+        });
+        
+        // Cart Count Update
+        const addToCartBtns = document.querySelectorAll('.add-to-cart');
+        const cartCount = document.querySelector('.cart-count');
+        let count = 0;
+        
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                count++;
+                cartCount.textContent = count;
+                
+                // Animation for cart icon
+                const cartIcon = document.querySelector('.cart-icon');
+                cartIcon.classList.add('animate');
+                setTimeout(() => {
+                    cartIcon.classList.remove('animate');
+                }, 500);
+            });
+        });
+        
+        // Quick View Functionality
+        const quickViewBtns = document.querySelectorAll('.quick-view');
+        
+        quickViewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // In a real implementation, this would show a modal with product details
+                alert('Quick view feature would show more product details here!');
+            });
+        });
+        
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.querySelector('.search-bar button');
+        
+        searchBtn.addEventListener('click', () => {
+            if (searchInput.value.trim()) {
+                // In a real implementation, this would search products
+                alert(`Searching for: ${searchInput.value}`);
+            }
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                alert(`Searching for: ${searchInput.value}`);
+            }
+        });
+    </script>
+</body>
+</html>
